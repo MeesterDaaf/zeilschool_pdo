@@ -6,6 +6,16 @@ $statement = $db_conn->prepare($sql);
 $statement->execute();
 $courses = $statement->fetchAll(PDO::FETCH_ASSOC);
 
+
+
+//if user is gelijk aan 2 of 1 dan mag hij/zij hier zijn!
+// als gebruiker 3 of ander getal is dan wegwezen 
+if ($_SESSION['role'] != 2 && $_SESSION['role'] != 1) {
+
+
+    //wegwezen!!!
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">

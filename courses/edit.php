@@ -14,7 +14,7 @@ if (isset($_POST['submit'])) { //als de knop geklikt is voer de onderstaande cod
     $stmt->bindParam(":ph_price", $price);
     $stmt->bindParam(":ph_id", $id);
     $stmt->execute(); //voor de update uit
-
+ 
 }
 
 $sql = "SELECT * FROM courses WHERE id = :ph_id";

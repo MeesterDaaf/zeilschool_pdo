@@ -10,9 +10,9 @@ if (isset($_POST['submit'])) { //als de knop geklikt is voer de onderstaande cod
     $stmt = $db_conn->prepare($sql); //stuur naar mysql.
     $stmt->bindParam(":ph_name", $name);
     $stmt->bindParam(":ph_price", $price);
-    $stmt->execute();
+    var_dump($stmt->execute());
 
-    header('location: index.php');
+    // header('location: index.php');
 }
 
 ?>
