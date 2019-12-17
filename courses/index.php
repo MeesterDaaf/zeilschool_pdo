@@ -1,6 +1,8 @@
 <?php
 require '../database.php';
 
+session_start();
+
 $sql = "SELECT * FROM courses";
 $statement = $db_conn->prepare($sql);
 $statement->execute();

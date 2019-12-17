@@ -18,6 +18,8 @@ if (isset($_POST['submit']) && $_POST['email'] != '') {
 
         session_start();
         $_SESSION['role'] = $database_gegevens['role'];
+
+        header('location: courses/index.php');
     } else {
         echo 'Deze gebruiker is niet bekend! Wegwezen aub!';
     }
