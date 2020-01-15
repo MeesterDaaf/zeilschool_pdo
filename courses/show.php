@@ -2,23 +2,33 @@
 require '../database.php';
 session_start();
 
-$sql = "SELECT * FROM courses";
+$id = $_GET['id'];
+
+//selecteer de cursus uit de db
+$sql = "SELECT * FROM courses WHERE id = :id";
 $statement = $db_conn->prepare($sql);
+$statement->bindParam(":id", $id);
 $statement->execute();
-$courses = $statement->fetchAll(PDO::FETCH_ASSOC);
+$course = $statement->fetch(PDO::FETCH_ASSOC);
+
+$_SESSION['course'] = $course;
+
+//selecteer alle inschrijvingen
+$sql = "SELECT * FROM users 
+                    JOIN inschrijvingen 
+                        ON inschrijvingen.user_id = users.id
+                    JOIN courses
+                        ON courses.id = inschrijvingen.course_id    
+                    WHERE inschrijvingen.course_id = :id";
+$statement = $db_conn->prepare($sql);
+$statement->bindParam(":id", $id);
+$statement->execute();
+$inschrijvingen = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+$_SESSION['inschrijvingen'] = $inschrijvingen;
 
 
-
-// if user is gelijk aan 2 of 1 dan mag hij/zij hier zijn!
-// als gebruiker 3 of ander getal is dan wegwezen 
-if ($_SESSION['role'] != 2 && $_SESSION['role'] != 1) {
-
-    header('location: ../login.php');
-    //wegwezen!!!
-}
-
-
-
+// var_dump($inschrijvingen);
 
 ?>
 <!DOCTYPE html>
@@ -50,30 +60,33 @@ if ($_SESSION['role'] != 2 && $_SESSION['role'] != 1) {
             </div>
         </div>
     </nav>
-    <table class="table">
-        <thead>
-            <th>id</th>
-            <th>name</th>
-            <th>price</th>
-            <th>&nbsp;</th>
-        </thead>
-        <tbody>
-            <?php foreach ($courses as $course) : ?>
-                <tr>
-                    <td><?php echo $course['id'] ?></td>
-                    <td><?php echo $course['name'] ?></td>
-                    <td><?php echo $course['price'] ?></td>
-                    <td>
-                        <?php if ($_SESSION['role'] == 1) : ?>
-                            <a href="show.php?id=<?php echo $course['id'] ?>" class="btn btn-success">Toon</a>
-                            <a href="edit.php?id=<?php echo $course['id'] ?>" class="btn btn-warning">Wijzig</a>
-                            <a href="delete.php?id=<?php echo $course['id'] ?>" class="btn btn-danger">Verwijder</a>
-                        <?php endif ?>
-                    </td>
-                </tr>
-            <?php endforeach ?>
-        </tbody>
-    </table>
-</body>
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <h4>Deelnemers van cursus: <?php echo $course['name']  ?></h4>
+                <h6><a href="pdf.php">Create PDF</a></h6>
+                <table class="table">
+                    <thead>
 
-</html>
+                        <tr>
+                            <th>id</th>
+                            <th>voornaam</th>
+                            <th>Email</th>
+                            <th>prijs</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($inschrijvingen as $inschrijving) : ?>
+                            <tr>
+                                <td><?php echo $inschrijving['id'] ?></td>
+                                <td><?php echo $inschrijving['fName'] ?></td>
+                                <td><?php echo $inschrijving['email'] ?></td>
+                                <td><?php echo $inschrijving['price'] ?></td>
+                            </tr>
+                        <?php endforeach ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>

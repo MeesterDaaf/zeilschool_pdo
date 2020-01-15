@@ -41,13 +41,23 @@ if (isset($_POST['submit']) && $_POST['email'] != '') {
 </head>
 
 <body>
-    <form action="" method="post">
-        <label for="email">Email</label>
-        <input type="text" name="email" id="">
-        <label for="password">Password</label>
-        <input type="text" name="password" id="">
-        <input type="submit" name="submit" value="Inloggen">
-    </form>
+    <div class="container d-flex justif-content-center mt-5">
+        <div class="row">
+
+            <div class="col">
+                <h4>Inloggen</h4>
+                <form action="" method="post">
+                    <label for="email">Email</label>
+                    <input type="text" name="email" id="" value="admin@admin.com">
+                    <label for="password">Password</label>
+                    <input type="text" name="password" id="" value="admin">
+                    <input type="submit" name="submit" value="Inloggen">
+                </form>
+            </div>
+
+        </div>
+
+    </div>
 </body>
 
 </html>

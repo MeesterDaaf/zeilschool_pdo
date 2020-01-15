@@ -2,10 +2,10 @@
 require '../database.php';
 session_start();
 
-$sql = "SELECT * FROM courses";
+$sql = "SELECT * FROM users";
 $statement = $db_conn->prepare($sql);
 $statement->execute();
-$courses = $statement->fetchAll(PDO::FETCH_ASSOC);
+$users = $statement->fetchAll(PDO::FETCH_ASSOC);
 
 
 
@@ -43,9 +43,9 @@ if ($_SESSION['role'] != 2 && $_SESSION['role'] != 1) {
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav">
-                <a href="index.php" class="nav-item nav-link">Alle Cursussen</a>
-                <a href="../users/index.php" class="nav-item nav-link">Alle deelnemers</a>
-                <a href="create.php" class="nav-item nav-link">Nieuwe Cursus</a>
+                <a href="../courses/index.php" class="nav-item nav-link">Alle Cursussen</a>
+                <a href="index.php" class="nav-item nav-link">Alle deelnemers</a>
+                <a href="create.php" class="nav-item nav-link">Nieuwe Gebruiker</a>
                 <a href="../logout.php" class="nav-item nav-link text-danger">Uitloggen</a>
             </div>
         </div>
@@ -53,21 +53,28 @@ if ($_SESSION['role'] != 2 && $_SESSION['role'] != 1) {
     <table class="table">
         <thead>
             <th>id</th>
-            <th>name</th>
-            <th>price</th>
+            <th>voornaam</th>
+            <th>email</th>
+            <th>rol</th>
             <th>&nbsp;</th>
         </thead>
         <tbody>
-            <?php foreach ($courses as $course) : ?>
+            <?php foreach ($users as $user) : ?>
                 <tr>
-                    <td><?php echo $course['id'] ?></td>
-                    <td><?php echo $course['name'] ?></td>
-                    <td><?php echo $course['price'] ?></td>
+                    <td><?php echo $user['id'] ?></td>
+                    <td><?php echo $user['fName'] ?></td>
+                    <td><?php echo $user['email'] ?></td>
+                    <td>
+                        <?php $roles = ['', 'Admin', 'Manager', 'Klant'];
+
+                        echo $roles[$user['role']]  ?>
+
+                    </td>
                     <td>
                         <?php if ($_SESSION['role'] == 1) : ?>
-                            <a href="show.php?id=<?php echo $course['id'] ?>" class="btn btn-success">Toon</a>
-                            <a href="edit.php?id=<?php echo $course['id'] ?>" class="btn btn-warning">Wijzig</a>
-                            <a href="delete.php?id=<?php echo $course['id'] ?>" class="btn btn-danger">Verwijder</a>
+                            <a href="show.php?id=<?php echo $user['id'] ?>" class="btn btn-success">Show</a>
+                            <a href="edit.php?id=<?php echo $user['id'] ?>" class="btn btn-warning">Wijzig</a>
+                            <a href="delete.php?id=<?php echo $user['id'] ?>" class="btn btn-danger">Verwijder</a>
                         <?php endif ?>
                     </td>
                 </tr>

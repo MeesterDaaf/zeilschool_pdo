@@ -14,7 +14,7 @@ if (isset($_POST['submit'])) { //als de knop geklikt is voer de onderstaande cod
     $stmt->bindParam(":ph_price", $price);
     $stmt->bindParam(":ph_id", $id);
     $stmt->execute(); //voor de update uit
- 
+
 }
 
 $sql = "SELECT * FROM courses WHERE id = :ph_id";
@@ -46,7 +46,9 @@ $course = $statement->fetch(PDO::FETCH_ASSOC);
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav">
                 <a href="index.php" class="nav-item nav-link">Alle Cursussen</a>
+                <a href="../users/index.php" class="nav-item nav-link">Alle deelnemers</a>
                 <a href="create.php" class="nav-item nav-link">Nieuwe Cursus</a>
+                <a href="../logout.php" class="nav-item nav-link text-danger">Uitloggen</a>
             </div>
         </div>
     </nav>

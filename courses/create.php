@@ -5,14 +5,21 @@ if (isset($_POST['submit'])) { //als de knop geklikt is voer de onderstaande cod
     $name = $_POST['name']; // vul een variabele die bij name is ingevuld
     $price = $_POST['price']; // vul een variabele die bij price is ingevuld
 
+
     //ZET WAARDE IN DATABASE
-    $sql = "INSERT INTO courses (`name`, `price`) VALUES (:ph_name, :ph_price)";
+    $sql = "INSERT INTO table (<column>) VALUES (:placeholder)";
+    $stmt = $db_conn->prepare($sql); //stuur naar mysql.
+    $stmt->bindParam(":placeholder", $placeholder_variabele);
+    $stmt->execute();
+
+    //ZET WAARDE IN DATABASE
+    $sql = "INSERT INTO courses (`name`, price) VALUES (:ph_name, :ph_price)";
     $stmt = $db_conn->prepare($sql); //stuur naar mysql.
     $stmt->bindParam(":ph_name", $name);
     $stmt->bindParam(":ph_price", $price);
     var_dump($stmt->execute());
 
-    // header('location: index.php');
+    header('location: index.php');
 }
 
 ?>
@@ -39,11 +46,12 @@ if (isset($_POST['submit'])) { //als de knop geklikt is voer de onderstaande cod
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav">
                 <a href="index.php" class="nav-item nav-link">Alle Cursussen</a>
+                <a href="../users/index.php" class="nav-item nav-link">Alle deelnemers</a>
                 <a href="create.php" class="nav-item nav-link">Nieuwe Cursus</a>
+                <a href="../logout.php" class="nav-item nav-link text-danger">Uitloggen</a>
             </div>
         </div>
     </nav>
-
     <div class="container">
         <div class="col">
             <h1>Cursus maken</h1>
